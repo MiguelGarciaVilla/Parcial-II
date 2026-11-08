@@ -18,7 +18,7 @@ defmodule Movimiento do
         horaFin = Time.from_iso8601(horaFin)
         magnitud = Util.parse_float(magnitud)
         profundidad = String.to_integer(profundidad)
-
+        
         crear(codigo,idCiudad,horaInicio,horaFin,magnitud,profundidad)
         end
 

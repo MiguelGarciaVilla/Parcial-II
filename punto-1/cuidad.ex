@@ -15,8 +15,18 @@ defmodule Ciudad do
       |> String.split("@")
       |> Enum.map(&String.trim/1)
     habitantes = String.to_integer(habitantes)
+    if validar_habitantes(habitantes) do
+      crear(idCiudad, nombre, habitantes)
+    else
+      :error
+    end
+  end
 
-    crear(idCiudad, nombre, habitantes)
+  defp validar_habitantes(habitantes) do
+    cond do
+      habitantes > 0  and is_integer(habitantes) -> true
+      _ -> false
+    end
   end
 
 end
