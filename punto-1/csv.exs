@@ -1,20 +1,22 @@
 defmodule Csv do
-  def escribir_csv(data, file_path, titulos, convertir_algo_linea) do
-    data
-    |> generar_mensaje_csv(convertir_algo_linea)
-    |> (&(titulos <> &1)).()
-    |> (&(File.write(file_path, &1))).()
+  # Lee el archivo y separa los registros válidos de los rechazados
+  def leer_con_rechazos(ruta, funcion_parse) do
+    case File.read(ruta) do
+      {:ok, contenido} ->
+        lineas = String.split(contenido, "\n", trim: true)
+        {validos, rechazados} = procesar_lineas(lineas, funcion_parse, [], 0)
+        {:ok, Enum.reverse(validos), rechazados}
+      {:error, _} ->
+        {:error, ruta}
+    end
   end
 
-  def leer_csv(file_path, convertir_linea_algo) do
-    File.stream!(file_path)
-    |> Enum.drop(1)
-    |> Enum.map(convertir_linea_algo)
-  end
-
-  def generar_mensaje_csv(data, convertir_algo_linea) do
-    data
-    |> Enum.map(convertir_algo_linea)
-    |> Enum.join("\n")
+  defp procesar_lineas([], _funcion, validos, rechazados), do: {validos, rechazados}
+  
+  defp procesar_lineas([linea | resto], funcion, validos, rechazados) do
+    case funcion.(linea) do
+      {:ok, dato} -> procesar_lineas(resto, funcion, [dato | validos], rechazados)
+      :error -> procesar_lineas(resto, funcion, validos, rechazados + 1)
+    end
   end
 end
