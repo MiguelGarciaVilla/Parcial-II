@@ -12,7 +12,7 @@ defmodule Csv do
   end
 
   defp procesar_lineas([], _funcion, validos, rechazados), do: {validos, rechazados}
-  
+
   defp procesar_lineas([linea | resto], funcion, validos, rechazados) do
     case funcion.(linea) do
       {:ok, dato} -> procesar_lineas(resto, funcion, [dato | validos], rechazados)
