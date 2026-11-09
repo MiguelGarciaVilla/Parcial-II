@@ -286,7 +286,7 @@ La segunda forma evita código repetido, hace más fácil agregar una validació
 - **Lo que todavía nos cuesta:** la comunicación entre nodos (nombres de nodo, cookies, `Node.connect/1` y el envío de mensajes a procesos registrados en otro nodo) y razonar sobre el orden en que llegan los mensajes entre procesos.
 - **Lo que cambiaríamos en un siguiente proyecto:** acordar desde el inicio la estructura de módulos y una sola rama de integración, para no llegar a dos versiones distintas del mismo código, y probar cada módulo en `iex` apenas se termina, en lugar de probar todo al final.
 
-La IA nos ayudo a que el README tuviera un formato mas sofisticado
+**Por ultimo la IA nos ayudo a que el README tuviera un formato mas sofisticado.**
 
 ---
 
