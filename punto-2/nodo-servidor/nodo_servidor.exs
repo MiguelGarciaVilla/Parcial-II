@@ -25,8 +25,8 @@ defmodule Servidor do
   end
 
   defp generar_texto_servidor(filtro_id) do
-    case {Csv.leer_con_rechazos("resources/ciudades.txt", &Ciudad.parse/1),
-          Csv.leer_con_rechazos("resources/movimientos.txt", &Movimiento.parse/1)} do
+    case {Csv.leer_con_rechazos("punto-2/nodo-servidor/resources/ciudades.txt", &Ciudad.parse/1),
+          Csv.leer_con_rechazos("punto-2/nodo-servidor/resources/movimientos.txt", &Movimiento.parse/1)} do
       {{:ok, ciudades, rc}, {:ok, movs, rm}} ->
         if filtro_id == nil do
           Reporte.generar(ciudades, movs, rc, rm)
