@@ -2,7 +2,7 @@ defmodule Movimiento do
   defstruct [:codigo, :id_ciudad, :hora_inicio, :hora_fin, :magnitud, :profundidad]
 
   def crear(codigo,id_ciudad,hora_inicio,hora_fin,magnitud,profundidad) do
-      %Movimiento{codigo: codigo, id_ciudad: id_ciudad, hora_inicio: hora_inicio, hora_fin: hohora_finraFin, magnitud: magnitud, profundidad: profundidad}
+      %Movimiento{codigo: codigo, id_ciudad: id_ciudad, hora_inicio: hora_inicio, hora_fin: hora_fin, magnitud: magnitud, profundidad: profundidad}
     end
 
   def parse(linea) do

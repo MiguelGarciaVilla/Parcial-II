@@ -1,3 +1,4 @@
+#compilar el util
 defmodule Reporte do
 
   def generar(ciudades_validas, movimientos_validos, rechazos_ciudades, rechazos_movimientos) do
@@ -21,7 +22,7 @@ defmodule Reporte do
     {total, max_mov, suma_prof} = calcular_stats(movimientos, 0, nil, 0.0)
     promedio = suma_prof / total
 
-    mensaje = Enum.map(movimientos, fn mov -> "  - #{mov.codigo} | #{mov.magnitud} | #{mov.profundidad}km"  end) |> Enum.join("\n")
+    mensaje = Enum.map(movimientos, fn mov -> "  - #{mov.codigo} | Inicio: #{mov.hora_inicio} | Final: #{mov.hora_fin} | Magnitud: #{mov.magnitud} | Profundidad: #{mov.profundidad}km"  end) |> Enum.join("\n")
 
     "#{ciudad.nombre} (#{ciudad.habitantes} hab.)\n#{mensaje}\nTotal: #{total} | Max: #{max_mov.codigo} (#{max_mov.magnitud}) | Prof Promedio: #{Util.formater(promedio)}\n"
   end
