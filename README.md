@@ -21,23 +21,25 @@ Aplicación en Elixir para el Observatorio Sismológico de la Universidad del Qu
 ```
 Parcial-II/
 ├── README.md
-├── main.exs                      # Funciones de arranque: Main.probar_punto1/0,
-│                                 # Main.arrancar_servidor/0, Main.arrancar_cliente/1
+│
 ├── punto-1/
 │   ├── cuidad.ex                 # Struct Ciudad + parse/1
 │   ├── movimiento.ex             # Struct Movimiento + parse/1
 │   ├── csv.exs                   # Lectura de archivos y conteo de rechazados (recursivo)
 │   ├── coordinador.exs           # Proceso coordinador y trabajadores concurrentes
 │   ├── reporte.exs               # Estadísticas recursivas y formato del reporte
-│   ├── util.ex                   # Utilidades (formato a dos decimales, entrada/salida)
+│   ├── util.ex
+│   ├── main.exs                   # Utilidades (formato a dos decimales, entrada/salida)
 │   └── resources/
 │       ├── ciudades.txt
 │       ├── movimientos.txt
 │       └── reporte_sismos.txt    # Se genera al ejecutar el punto 1
 └── punto-2/
     ├── nodo-cliente/
+    │   ├── cookie.txt
     │   └── nodo_cliente.exs      # Módulo Cliente
     └── nodo-servidor/
+        ├── cookie.txt
         ├── nodo_servidor.exs     # Módulo Servidor
         └── resources/
             ├── ciudades.txt
@@ -82,14 +84,14 @@ Los archivos no tienen encabezado. Cada línea es un registro y los campos se se
 
 ## Compilación (paso previo a ambos puntos)
 
-**Todos los comandos se ejecutan desde la raíz del repositorio (`Parcial-II/`)**, porque las rutas de los archivos de entrada son relativas a esa carpeta (por ejemplo, `punto-1/resources/ciudades.txt`).
+**Para ejecutar el punto 1 se debe compilar los modulos (`Parcial-II/`)** 
 
 ```bash
-cd Parcial-II
-elixirc punto-1/coordinador.exs punto-1/cuidad.ex punto-1/reporte.exs punto-1/movimiento.ex punto-1/util.ex punto-1/csv.exs punto-2/nodo-servidor/nodo_servidor.exs punto-2/nodo-cliente/nodo_cliente.exs
+cd Parcial-II/
+elixirc punto-1/util.ex punto-1/cuidad.ex punto-1/movimiento.ex punto-1/csv.exs punto-1/reporte.exs punto-1/coordinador.exs
 ```
 
-Esto genera los archivos `Elixir.*.beam` en la raíz. Los comandos siguientes los cargan automáticamente porque se ejecutan desde la misma carpeta.
+Esto genera los archivos `Elixir.*.beam`.
 
 ---
 
@@ -97,10 +99,10 @@ Esto genera los archivos `Elixir.*.beam` en la raíz. Los comandos siguientes lo
 
 ### Ejecución
 
-Desde la raíz del repositorio (`Parcial-II/`), después de compilar:
+Desde (`Parcial-II/`), después de compilar:
 
 ```bash
-elixir -r main.exs -e "Main.probar_punto1()"
+elixir punto-1/main.exs"
 ```
 
 ### Archivos
@@ -131,10 +133,10 @@ Si alguno de los archivos de entrada no se puede leer, se muestra `Error leyendo
 
 | Rol | Nombre del nodo | Proceso registrado |
 |---|---|---|
-| Servidor | `servidor@127.0.0.1` | `:servicio_sismos` |
-| Cliente | `cliente@127.0.0.1` | `:servicio_respuesta` |
+| Servidor | `nodoservidor@localhost` | `:servicio_sismos` |
+| Cliente | `nodocliente@localhost` | `:servicio_respuesta` |
 
-Ambos nodos deben usar **la misma cookie**. En este proyecto se configura con la opción `--cookie sismos` en los dos comandos. Si las cookies no coinciden, `Node.connect/1` falla y el cliente muestra `No se pudo conectar al servidor` y finaliza.
+Ambos nodos deben usar **la misma cookie**. En este proyecto se configura con la opción `--cookie` en los dos comandos. Si las cookies no coinciden, `Node.connect/1` falla y el cliente muestra `No se pudo conectar al servidor` y finaliza.
 
 ### Ejecución
 
@@ -143,7 +145,7 @@ Compilar primero (ver [Compilación](#compilación-paso-previo-a-ambos-puntos)).
 **Terminal 1: servidor**
 
 ```bash
-elixir --name servidor@127.0.0.1 --cookie sismos -r main.exs -e "Main.arrancar_servidor()"
+elixir --sname nodoservidor@localhost --cookie "$(cat punto-2/nodo-servidor/cookie)" punto-2/nodo-servidor/nodo_servidor.exs
 ```
 
 Debe mostrar `Servidor iniciado. Esperando consultas`. No cierre esta terminal.
@@ -151,20 +153,8 @@ Debe mostrar `Servidor iniciado. Esperando consultas`. No cierre esta terminal.
 **Terminal 2: cliente**
 
 ```bash
-elixir --name cliente@127.0.0.1 --cookie sismos -r main.exs -e 'Main.arrancar_cliente(:"servidor@127.0.0.1")'
+elixir --sname nodocliente@localhost --cookie "$(cat punto-2/nodo-cliente/cookie)" punto-2/nodo-cliente/nodo_cliente.exs
 ```
-
-> **Alternativa con `iex`** (útil en Windows, donde las comillas del comando anterior pueden dar problemas). En PowerShell se escribe `iex.bat` en lugar de `iex`.
->
-> ```bash
-> # Terminal 1
-> iex --name servidor@127.0.0.1 --cookie sismos main.exs
-> iex> Main.arrancar_servidor()
->
-> # Terminal 2
-> iex --name cliente@127.0.0.1 --cookie sismos main.exs
-> iex> Main.arrancar_cliente(:"servidor@127.0.0.1")
-> ```
 
 ### Solicitudes que envía el cliente
 
