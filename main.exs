@@ -19,5 +19,5 @@ defmodule Main do
 end
 #Main.probar_punto1()
 #Main.arrancar_servidor() #iex --sname servidor main.exs
-#Main.arrancar_cliente(:"servidor@omnibook") #iex --sname cliente main.exs
+Main.arrancar_cliente(:"servidor@omnibook") #iex --sname cliente main.exs
 #compilacion: elixirc punto-1/coordinador.exs punto-1/cuidad.ex punto-1/reporte.exs punto-1/movimiento.ex punto-1/util.ex punto-1/csv.exs punto-2/nodo-servidor/nodo_servidor.exs punto-2/nodo-cliente/nodo_cliente.exs
