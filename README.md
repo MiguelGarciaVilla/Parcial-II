@@ -84,11 +84,11 @@ Los archivos no tienen encabezado. Cada línea es un registro y los campos se se
 
 ## Compilación (paso previo a ambos puntos)
 
-**Para ejecutar el punto 1 se debe compilar los modulos (`Parcial-II/punto-1/`)** 
+**Para ejecutar el punto 1 se debe compilar los modulos (`Parcial-II/`)** 
 
 ```bash
-cd Parcial-II/punto-1/
-elixirc coordinador.exs csv.exs cuidad.ex movimiento.ex reporte.exs util.ex
+cd Parcial-II/
+elixirc punto-1/util.ex punto-1/cuidad.ex punto-1/movimiento.ex punto-1/csv.exs punto-1/reporte.exs punto-1/coordinador.exs
 ```
 
 Esto genera los archivos `Elixir.*.beam`.
@@ -99,10 +99,10 @@ Esto genera los archivos `Elixir.*.beam`.
 
 ### Ejecución
 
-Desde (`Parcial-II/punto-1/`), después de compilar:
+Desde (`Parcial-II/`), después de compilar:
 
 ```bash
-elixir main.exs"
+elixir punto-1/main.exs"
 ```
 
 ### Archivos
@@ -133,10 +133,10 @@ Si alguno de los archivos de entrada no se puede leer, se muestra `Error leyendo
 
 | Rol | Nombre del nodo | Proceso registrado |
 |---|---|---|
-| Servidor | `servidor@127.0.0.1` | `:servicio_sismos` |
-| Cliente | `cliente@127.0.0.1` | `:servicio_respuesta` |
+| Servidor | `nodoservidor@localhost` | `:servicio_sismos` |
+| Cliente | `nodocliente@localhost` | `:servicio_respuesta` |
 
-Ambos nodos deben usar **la misma cookie**. En este proyecto se configura con la opción `--cookie sismos` en los dos comandos. Si las cookies no coinciden, `Node.connect/1` falla y el cliente muestra `No se pudo conectar al servidor` y finaliza.
+Ambos nodos deben usar **la misma cookie**. En este proyecto se configura con la opción `--cookie` en los dos comandos. Si las cookies no coinciden, `Node.connect/1` falla y el cliente muestra `No se pudo conectar al servidor` y finaliza.
 
 ### Ejecución
 
@@ -145,7 +145,7 @@ Compilar primero (ver [Compilación](#compilación-paso-previo-a-ambos-puntos)).
 **Terminal 1: servidor**
 
 ```bash
-elixir --name servidor@127.0.0.1 --cookie sismos -r main.exs -e "Main.arrancar_servidor()"
+elixir --sname nodoservidor@localhost --cookie "$(cat punto-2/nodo-servidor/cookie)" punto-2/nodo-servidor/nodo_servidor.exs
 ```
 
 Debe mostrar `Servidor iniciado. Esperando consultas`. No cierre esta terminal.
@@ -153,20 +153,8 @@ Debe mostrar `Servidor iniciado. Esperando consultas`. No cierre esta terminal.
 **Terminal 2: cliente**
 
 ```bash
-elixir --name cliente@127.0.0.1 --cookie sismos -r main.exs -e 'Main.arrancar_cliente(:"servidor@127.0.0.1")'
+elixir --sname nodocliente@localhost --cookie "$(cat punto-2/nodo-cliente/cookie)" punto-2/nodo-cliente/nodo_cliente.exs
 ```
-
-> **Alternativa con `iex`** (útil en Windows, donde las comillas del comando anterior pueden dar problemas). En PowerShell se escribe `iex.bat` en lugar de `iex`.
->
-> ```bash
-> # Terminal 1
-> iex --name servidor@127.0.0.1 --cookie sismos main.exs
-> iex> Main.arrancar_servidor()
->
-> # Terminal 2
-> iex --name cliente@127.0.0.1 --cookie sismos main.exs
-> iex> Main.arrancar_cliente(:"servidor@127.0.0.1")
-> ```
 
 ### Solicitudes que envía el cliente
 
