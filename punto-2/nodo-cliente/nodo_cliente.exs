@@ -17,7 +17,7 @@ defmodule Cliente do
   ]
 
   def main() do
-    Util.mostrar_mensaje("PROCESO CLIENTE")
+    IO.puts("PROCESO CLIENTE")
 
     @nombre_servicio_local
     |> registrar_servicio()
@@ -38,7 +38,7 @@ defmodule Cliente do
 
   # Cubre false (no hubo conexión) y :ignored (este nodo no se inició con --sname)
   defp iniciar_produccion(_),
-    do: Util.mostrar_error("No se pudo conectar con el nodo servidor")
+    do: IO.puts(:standard_error, "No se pudo conectar con el nodo servidor")
 
   defp enviar_mensajes() do
     Enum.each(@mensajes, &enviar_mensaje/1)
@@ -51,11 +51,12 @@ defmodule Cliente do
   defp recibir_respuestas() do
     receive do
       {:fin, texto} ->
-        Util.mostrar_mensaje("\nFIN\n#{texto}")
+        IO.puts("\nFIN\n#{texto}")
 
       {:respuesta, texto} ->
-        Util.mostrar_mensaje("\nRESPUESTA\n#{texto}")
+        IO.puts("\nRESPUESTA\n#{texto}")
         recibir_respuestas()
     end
   end
 end
+Cliente.main()

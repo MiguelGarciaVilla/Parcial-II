@@ -4,7 +4,7 @@ defmodule Servidor do
   @ruta_movimientos "punto-2/nodo-servidor/resources/movimientos.txt"
 
   def main() do
-    Util.mostrar_mensaje("PROCESO SERVIDOR: esperando consultas")
+    IO.puts("PROCESO SERVIDOR: esperando consultas")
     registrar_servicio(@nombre_servicio_local)
     procesar_mensajes()
   end
@@ -60,3 +60,4 @@ defmodule Servidor do
     end
   end
 end
+Servidor.main()
