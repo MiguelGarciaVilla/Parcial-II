@@ -1,0 +1,14 @@
+Armenia (304314 hab.)
+  - S001 | Inicio: 08:15:02 | Final: 08:15:18 | Magnitud: 3.4 | Profundidad: 18.0km
+  - S003 | Inicio: 11:42:00 | Final: 11:42:12 | Magnitud: 2.8 | Profundidad: 10.0km
+Total: 2 | Max: S001 (3.4) | Prof Promedio: 14.00
+
+Calarcá (78684 hab.)
+  - S002 | Inicio: 09:30:10 | Final: 09:30:29 | Magnitud: 4.1 | Profundidad: 25.0km
+Total: 1 | Max: S002 (4.1) | Prof Promedio: 25.00
+
+Circasia (30941 hab.)
+Sin movimientos registrados. Total: 0 | Max: No aplica | Prof Promedio: No aplica
+
+Rechazados Ciudades: 1
+Rechazados Movimientos: 1
