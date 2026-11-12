@@ -87,7 +87,7 @@ Los archivos no tienen encabezado. Cada línea es un registro y los campos se se
 **Para ejecutar el punto 1 se debe compilar los modulos (`Parcial-II/`)** 
 
 ```bash
-cd Parcial-II/
+cd Parcial-II
 elixirc punto-1/util.ex punto-1/cuidad.ex punto-1/movimiento.ex punto-1/csv.exs punto-1/reporte.exs punto-1/coordinador.exs
 ```
 
